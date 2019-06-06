@@ -1,80 +1,38 @@
-package com.example.listview;
+package com.example.dialing;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Spinner;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-Spinner list;
-    String data[]={"Priya","Ananya","Kajal","Agrima","Aprajita"};
-
+EditText text;
+Button dialing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        list=(Spinner) findViewById(R.id.listview);
-
-        ArrayAdapter adapter=new ArrayAdapter(MainActivity.this,
-                android.R.layout.simple_list_item_1,data);
-        list.setAdapter(adapter);
-
-        list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        text=(EditText)findViewById(R.id.no);
+        dialing=(Button)findViewById(R.id.dialing);
+        dialing.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //TextView txt=(TextView)view;
-                //Toast.makeText(MainActivity.this, txt.getText().toString(), Toast.LENGTH_SHORT).show();
-
-                switch (position)
+            public void onClick(View v) {
+                String text1=text.getText().toString();
+                if(TextUtils.isEmpty(text1)) {
+                    text.setError("Enter no");
+                }
+                else
                 {
-                    case 0:
-                        Toast.makeText(MainActivity.this,"First",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case 1:
-                        Toast.makeText(MainActivity.this,"Second",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case 2:
-                        Toast.makeText(MainActivity.this, "Third",
-                                Toast.LENGTH_SHORT).show();
-                        break;
+                    Intent i=new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+text1));
+                    startActivity(i);
                 }
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
         });
-
-       /* list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TextView txt=(TextView)view;
-                //Toast.makeText(MainActivity.this, txt.getText().toString(), Toast.LENGTH_SHORT).show();
-
-                switch (position)
-                {
-                    case 0:
-                        Toast.makeText(MainActivity.this,"First",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case 1:
-                        Toast.makeText(MainActivity.this,"Second",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case 2:
-                        Toast.makeText(MainActivity.this, "Third",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-            }}
-        });*/
     }
 }
